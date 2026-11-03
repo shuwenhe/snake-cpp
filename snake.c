@@ -38,6 +38,7 @@ bool RandomFood(void); //生成食物函数声明
 int main() //主函数
 {
 	Initialization(); //初始化游戏
+	WaitGame(); //显示等待界面
 	Game(); //开始游戏
 	return 0; //返回0表示程序正常退出
 }
@@ -107,16 +108,16 @@ void CreateSnake(void) //创建蛇函数
 	wclear(snakeys_world); //清空游戏窗口
 	for (int i = 0; i < SnakeLength; i++) //循环初始化蛇的各个身体部分
 	{
-		snakey[i].x = 10 - i; //从左到右排列蛇身（相对于窗口坐标）
-		snakey[i].y = WORLD_HEIGHT / 2; //设置蛇的y坐标在中间（相对于窗口坐标）
+		snakey[i].x = 20 - i; //从左到右排列蛇身（相对于窗口坐标）
+		snakey[i].y = 5; //设置蛇的y坐标在中间（相对于窗口坐标）
 	}
 	mvwaddch(snakeys_world, snakey[0].y, snakey[0].x, '0'); //绘制蛇头（'0'）
 	for (int i = 1; i < SnakeLength; i++) //循环绘制蛇身
 	{
 		mvwaddch(snakeys_world, snakey[i].y, snakey[i].x, '#'); //用'#'绘制蛇身
 	}
-	mvprintw(1, WORLD_HEIGHT / 2 + 10, "Score: %d", Score); //显示分数
 	box(snakeys_world, 0, 0); //绘制窗口边框
+	mvwprintw(snakeys_world, 1, WORLD_WIDTH / 2 - 5, "Score: %d", Score); //显示分数
 	wrefresh(snakeys_world); //刷新窗口显示
 }
 
@@ -221,8 +222,11 @@ void MoveHead(void) //移动蛇头函数
 			; //空循环
 		timeout(speed); //更新游戏速度
 	}
-	mvwaddch(snakeys_world, food.y, food.x, 'x'); //在窗口中绘制食物
-	mvwaddch(snakeys_world, snakey[0].y, snakey[0].x, '0'); //在窗口中绘制蛇头
+	if (food.y > 0 && food.x > 0 && food.y < WORLD_HEIGHT && food.x < WORLD_WIDTH)
+	{
+		mvwaddch(snakeys_world, food.y, food.x, '*'); //在窗口中绘制食物
+	}
+	mvwaddch(snakeys_world, snakey[0].y, snakey[0].x, '@'); //在窗口中绘制蛇头
 }
 
 /*
