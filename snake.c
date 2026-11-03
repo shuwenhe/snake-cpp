@@ -104,21 +104,18 @@ void WaitGame(void) //等待游戏开始函数
  */
 void CreateSnake(void) //创建蛇函数
 {
-	int offsetx = (COLS - WORLD_WIDTH) / 2; //计算水平偏移量
-	int offsety = (LINES - WORLD_HEIGHT) / 2; //计算垂直偏移量
 	wclear(snakeys_world); //清空游戏窗口
 	for (int i = 0; i < SnakeLength; i++) //循环初始化蛇的各个身体部分
 	{
-		snakey[i].x = offsetx + 10 - i; //从左到右排列蛇身
-		snakey[i].y = offsety + WORLD_HEIGHT / 2; //设置蛇的y坐标在中间
+		snakey[i].x = 10 - i; //从左到右排列蛇身（相对于窗口坐标）
+		snakey[i].y = WORLD_HEIGHT / 2; //设置蛇的y坐标在中间（相对于窗口坐标）
 	}
 	mvwaddch(snakeys_world, snakey[0].y, snakey[0].x, '0'); //绘制蛇头（'0'）
 	for (int i = 1; i < SnakeLength; i++) //循环绘制蛇身
 	{
 		mvwaddch(snakeys_world, snakey[i].y, snakey[i].x, '#'); //用'#'绘制蛇身
 	}
-	mvwaddch(snakeys_world, food.y, food.x, 'x'); //显示初始食物（'x'）
-	mvprintw(1, offsetx + WORLD_HEIGHT / 2 + 10, "Score: %d", Score); //显示分数
+	mvprintw(1, WORLD_HEIGHT / 2 + 10, "Score: %d", Score); //显示分数
 	box(snakeys_world, 0, 0); //绘制窗口边框
 	wrefresh(snakeys_world); //刷新窗口显示
 }
@@ -131,16 +128,11 @@ void CreateSnake(void) //创建蛇函数
 bool RandomFood(void) //生成随机食物函数
 {
 	srand(time(NULL)); //用当前时间作为随机数种子
-	int food_y = (rand() % (WORLD_HEIGHT - 1)); //生成随机y坐标
-	int food_x = (rand() % (WORLD_WIDTH - 1)); //生成随机x坐标
-	int n = 0; //临时变量（未使用）
+	int food_y = (rand() % (WORLD_HEIGHT - 2)) + 1; //生成随机y坐标（1到WORLD_HEIGHT-2）
+	int food_x = (rand() % (WORLD_WIDTH - 2)) + 1; //生成随机x坐标（1到WORLD_WIDTH-2）
 	for (int i = 0; i < SnakeLength; i++) //检查食物是否与蛇身重叠
 	{
 		if (snakey[i].x == food_x && snakey[i].y == food_y) //若食物位置在蛇身上
-		{
-			return false; //返回false表示位置不合适
-		}
-		else if (food_y == 0 || food_x == 0) //若食物位置在边界上
 		{
 			return false; //返回false表示位置不合适
 		}
@@ -257,8 +249,6 @@ void Move(void) //移动蛇身函数
  */
 void Game(void) //主游戏函数
 {
-	int offsetx = (COLS - WORLD_WIDTH) / 2; //计算水平偏移量
-	int offsety = (LINES - WORLD_HEIGHT) / 2; //计算垂直偏移量
 	CreateSnake(); //初始化蛇
 	while (!RandomFood()) //生成有效的食物位置
 		; //空循环
@@ -268,7 +258,7 @@ void Game(void) //主游戏函数
 		GetDir(); //获取用户输入并改变蛇的方向
 		Move(); //移动蛇身
 		MoveHead(); //移动蛇头
-		mvprintw(1, offsetx + WORLD_HEIGHT / 2 + 10, "Score: %d ", Score); //显示分数
+		mvwprintw(snakeys_world, 1, WORLD_WIDTH / 2 + 10, "Score: %d ", Score); //显示分数
 		box(snakeys_world, 0, 0); //绘制窗口边框
 		wrefresh(snakeys_world); //刷新窗口显示
 	}
