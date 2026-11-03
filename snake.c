@@ -37,7 +37,6 @@ bool RandomFood(void);
 int main()
 {
 	Initialization();
-	WaitGame();
 	Game();
 	return 0;
 }
