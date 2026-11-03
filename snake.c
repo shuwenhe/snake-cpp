@@ -38,7 +38,7 @@ bool RandomFood(void); //生成食物函数声明
 int main() //主函数
 {
 	Initialization(); //初始化游戏
-	WaitGame(); //显示等待界面
+	// WaitGame(); //显示等待界面（注释掉以直接开始游戏）
 	Game(); //开始游戏
 	return 0; //返回0表示程序正常退出
 }
