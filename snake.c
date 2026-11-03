@@ -108,13 +108,14 @@ void CreateSnake(void)
 	for (int i = 0; i < SnakeLength; i++)
 	{
 		snakey[i].x = offsetx + 10 - i;
-		snakey[i].y = offsety;
+		snakey[i].y = offsety + WORLD_HEIGHT / 2;
 	}
 	mvwaddch(snakeys_world, snakey[0].y, snakey[0].x, '0'); //在指定位置输出蛇头
 	for (int i = 1; i < SnakeLength; i++)
 	{
 		mvwaddch(snakeys_world, snakey[i].y, snakey[i].x, '#'); //在指定位置输出蛇身
 	}
+	mvwaddch(snakeys_world, food.y, food.x, 'x'); //显示初始食物
 	mvprintw(1, offsetx + WORLD_HEIGHT / 2 + 10, "Score: %d", Score);
 	box(snakeys_world, 0, 0);
 	wrefresh(snakeys_world);
