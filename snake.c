@@ -1,8 +1,8 @@
 #include <ncurses.h> //引入ncurses库头文件
 #include <stdlib.h> //引入标准库
 #include <time.h> //引入时间库
-#define WORLD_WIDTH 50 //定义游戏世界宽度为50
-#define WORLD_HEIGHT 20 //定义游戏世界高度为20
+#define WORLD_WIDTH 150 //定义游戏世界宽度为50
+#define WORLD_HEIGHT 60 //定义游戏世界高度为20
 
 typedef struct spart //定义蛇的身体部分结构体
 {
@@ -19,7 +19,7 @@ enum direction //定义蛇的移动方向枚举
 }; //方向枚举
 
 WINDOW *snakeys_world; //游戏窗口指针
-int SnakeLength = 5; //蛇的长度初始为5
+int SnakeLength = 1; //蛇的长度初始为5
 int Score = 0; //游戏分数初始为0
 snakeypart snakey[120]; //蛇身体数组，最多120个节点
 snakeypart food; //食物坐标

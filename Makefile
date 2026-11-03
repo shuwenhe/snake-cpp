@@ -1,7 +1,7 @@
-CC = gcc
+CC = g++
 CFLAGS = -lncurses
 TARGET = snake
-SRC = snake.c
+SRC = snake.cpp
 
 .PHONY: all run clean
 
